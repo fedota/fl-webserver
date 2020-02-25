@@ -1,0 +1,2 @@
+Django==2.2.6
+django-admin-interface==0.12.1
