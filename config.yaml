@@ -1,0 +1,5 @@
+APP_NAME: fl-webserver
+# logLevel: DEBUG
+PORT: 8000
+COORDINATOR_KUBE_CONFIG_PATH: ''
+UPLOAD_DIR_PATH: ''
