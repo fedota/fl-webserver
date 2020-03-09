@@ -1,0 +1,54 @@
+# FL Selector Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: selector
+  labels:
+    app: fl
+spec:
+  selector:
+    app: fl
+  ports:
+  - port: 50051
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selector
+  labels:
+    app: fl
+spec:
+  selector:
+    matchLabels:
+      app: fl
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fl
+    spec:
+      containers:
+      - image: fl-selector
+        name: fl-selector
+        imagePullPolicy: Never
+        env:
+        - name: SELECTOR_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: COORDINATOR_ADDRESS
+          value: "coordinator:50050"
+        - name: FL_ROOT_PATH
+          value: "/mnt/data"
+        ports:
+        - containerPort: 50051
+        volumeMounts:
+        - name: fl-pvc
+          mountPath: "/mnt"
+      volumes:
+      - name: fl-pvc
+        persistentVolumeClaim:
+          claimName: fl-pvc

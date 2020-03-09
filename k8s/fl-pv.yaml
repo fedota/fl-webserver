@@ -1,0 +1,13 @@
+# persistent volume for fl files shared between coordinator and selector
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: fl-problem-pv # to be changed as per fl problem
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/fl-problem-dir" # changed as per fl problem
