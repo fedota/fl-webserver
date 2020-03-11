@@ -26,14 +26,14 @@ def spawn_services(id):
     apps_v1 = client.AppsV1Api()
 
     # create the namespace as the fl problem id
-    if str(id) in core_v1.list_namespace().items 
+    if str(id) in core_v1.list_namespace().items:
         delete_namespace(str(id))
     create_namespace(str(id))
 
     # create a fl pv for each problem
     pv_config_file = os.path.join(
         settings.BASE_DIR, "k8s/fl-pv.yaml")
-    with open(deployment_config_file) as f:
+    with open(pv_config_file) as f:
         dep = yaml.safe_load_all(f)
         dep['metadata'].name = str(id)
         dep['spec'].hostPath.path = os.path.join(
@@ -44,7 +44,7 @@ def spawn_services(id):
     # create fl coordinator service and deployment
     pvc_config_file = os.path.join(
         settings.BASE_DIR, "k8s/fl-pvc.yaml")
-    with open(deployment_config_file) as f:
+    with open(pvc_config_file) as f:
         dep = yaml.safe_load_all(f)
         resp = core_v1.create_namespaced_persistent_volume_claim(
             namespace=id, body=dep)
