@@ -43,6 +43,8 @@ spec:
           value: "coordinator:50050"
         - name: FL_ROOT_PATH
           value: "/mnt/data"
+        - name: PROBLEM_ID
+          value: "DEFAULT"
         ports:
         - containerPort: 50051
         volumeMounts:

@@ -42,6 +42,14 @@ def create_service_deployment(id, service_name, deployment_config_file):
 
             elif yaml_object['kind'] == 'Deployment':
                 try:
+                    for env in yaml_object['spec']['template']['spec']['containers'][0]['env']:
+                        if env['name']=='PROBLEM_ID':
+                            env['value'] = id
+                except KeyError as e:
+                    print("Could not set problem id environment variable")
+                    # TODO: Show error page
+
+                try:
                     resp = apps_v1.create_namespaced_deployment(
                         namespace=id, body=yaml_object)
                     print(("FL {} deployment created. Status={}").format(service_name, resp.metadata.name))
