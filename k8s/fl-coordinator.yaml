@@ -28,7 +28,7 @@ spec:
         app: fl
     spec:
       containers:
-      - image: fl-coordinator
+      - image: fedota/fl-coordinator
         name: fl-coordinator
         imagePullPolicy: IfNotPresent
         env:

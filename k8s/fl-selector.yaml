@@ -31,7 +31,7 @@ spec:
         app: fl
     spec:
       containers:
-      - image: fl-selector
+      - image: fedota/fl-selector
         name: fl-selector
         imagePullPolicy: IfNotPresent
         env:

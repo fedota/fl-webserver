@@ -11,7 +11,10 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
-  nfs:
-    # NFS server is exposed through a service named nfs-service 
-    server: nfs-service.default.svc.cluster.local
-    path: "/pb0"
+  # Use nfs or hostPath as needed
+  # nfs:
+  #   # NFS server is exposed through a service named nfs-service 
+  #   server: nfs-service.default.svc.cluster.local
+  #   path: "/pb0"
+  hostPath:
+    path: "/data/" # changed as per fl problem
