@@ -33,7 +33,7 @@ spec:
       containers:
       - image: fl-selector
         name: fl-selector
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         env:
         - name: SELECTOR_ID
           valueFrom:

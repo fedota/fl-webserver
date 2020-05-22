@@ -44,7 +44,7 @@ def create_service_deployment(id, service_name, deployment_config_file):
                 try:
                     for env in yaml_object['spec']['template']['spec']['containers'][0]['env']:
                         if env['name']=='PROBLEM_ID':
-                            env['value'] = id
+                            env['value'] = str(id)
                 except KeyError as e:
                     print("Could not set problem id environment variable")
                     # TODO: Show error page

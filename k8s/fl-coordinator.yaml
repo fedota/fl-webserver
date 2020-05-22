@@ -30,7 +30,7 @@ spec:
       containers:
       - image: fl-coordinator
         name: fl-coordinator
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         env:
         - name: CHECKIN_LIMIT
           value: "2"
