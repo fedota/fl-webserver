@@ -30,7 +30,7 @@ spec:
       containers:
       - image: fl-coordinator
         name: fl-coordinator
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         env:
         - name: CHECKIN_LIMIT
           value: "2"
@@ -38,6 +38,8 @@ spec:
           value: "/mnt"
         - name: SELECTOR_ADDRESS
           value: "selector:50051"
+        - name: PROBLEM_ID
+          value: "DEFAULT"
         ports:
         - containerPort: 50050
         volumeMounts:

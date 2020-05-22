@@ -33,7 +33,7 @@ spec:
       containers:
       - image: fl-selector
         name: fl-selector
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         env:
         - name: SELECTOR_ID
           valueFrom:
@@ -43,6 +43,8 @@ spec:
           value: "coordinator:50050"
         - name: FL_ROOT_PATH
           value: "/mnt"
+        - name: PROBLEM_ID
+          value: "DEFAULT"
         ports:
         - containerPort: 50051
         volumeMounts:
