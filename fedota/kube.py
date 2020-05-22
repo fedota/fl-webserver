@@ -48,6 +48,34 @@ def create_service_deployment(id, service_name, deployment_config_file):
                 except ApiException as e:
                     print(e.body)
 
+def create_pv(id, pv_config_file):
+    # create a fl pv for each problem
+    with open(pv_config_file) as f:
+        dep = yaml.safe_load(f)
+        dep['metadata']['name'] = str(id)
+        dep['metadata']['labels']['fl-problem'] = str(id)
+        dep['spec']['nfs']['path'] = os.path.join(
+        "/", str(id))
+        try:
+            resp = core_v1.create_persistent_volume(body=dep)
+            print("FL PV created. status='%s'" % resp.metadata.name)
+        except ApiException as e:
+            # TODO: Handle AlreadyExists error
+            print(e.body)
+
+def create_namespaced_pvc(id, pvc_config_file):
+    # create fl pvc under problem namespace
+    with open(pvc_config_file) as f:
+        dep = yaml.safe_load(f)
+        dep['spec']['selector']['matchLabels']['fl-problem'] =
+            str(id)
+        try:
+            resp = core_v1.create_namespaced_persistent_volume_claim(
+                namespace=id, body=dep)
+            print("FL PVC created. status='%s'" % resp.metadata.name)
+        except ApiException as e:
+            print(e.body)
+
 def spawn_services(id):
     config.load_kube_config()
     core_v1 = client.CoreV1Api()
@@ -61,6 +89,7 @@ def spawn_services(id):
     # create a fl pv for each problem
     pv_config_file = os.path.join(
         settings.BASE_DIR, "k8s/fl-pv.yaml")
+    # create_pv(id, pv_config_file)
     with open(pv_config_file) as f:
         dep =yaml.safe_load(f)
         dep['metadata']['name'] = str(id)
@@ -76,6 +105,7 @@ def spawn_services(id):
     # create fl coordinator service and deployment
     pvc_config_file = os.path.join(
         settings.BASE_DIR, "k8s/fl-pvc.yaml")
+    # create_namespaced_pvc(id, pvc_config_file)
     with open(pvc_config_file) as f:
         dep = yaml.safe_load(f)
         try:

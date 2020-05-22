@@ -42,7 +42,7 @@ spec:
         - name: COORDINATOR_ADDRESS
           value: "coordinator:50050"
         - name: FL_ROOT_PATH
-          value: "/mnt/data"
+          value: "/mnt"
         ports:
         - containerPort: 50051
         volumeMounts:

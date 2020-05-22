@@ -35,7 +35,7 @@ spec:
         - name: CHECKIN_LIMIT
           value: "2"
         - name: FL_ROOT_PATH
-          value: "/mnt/data"
+          value: "/mnt"
         - name: SELECTOR_ADDRESS
           value: "selector:50051"
         ports:
