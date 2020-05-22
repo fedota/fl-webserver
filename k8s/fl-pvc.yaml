@@ -1,12 +1,15 @@
-# Claim the fl pv
+# Persistent volumen claim
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: fl-pvc
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteMany
+  storageClassName: ""
   resources:
     requests:
       storage: 1Gi
+  selector: 
+    matchLabels: 
+      fl-problem: pb0

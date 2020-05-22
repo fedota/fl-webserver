@@ -1,13 +1,17 @@
-# persistent volume for fl files shared between coordinator and selector
+# PV using NFS
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: fl-problem-pv # to be changed as per fl problem
+  name: fl-pv
+  labels:
+    fl-problem: pb0
 spec:
-  storageClassName: manual
+  persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
-  hostPath:
-    path: "/mnt/fl-problem-dir" # changed as per fl problem
+  nfs:
+    # NFS server is exposed through a service named nfs-service 
+    server: nfs-service.default.svc.cluster.local
+    path: "/pb0"
