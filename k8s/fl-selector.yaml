@@ -13,18 +13,17 @@ spec:
   type: NodePort
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: selector
   labels:
     app: fl
 spec:
+  serviceName: "selector"
   selector:
     matchLabels:
       app: fl
-  replicas: 1
-  strategy:
-    type: Recreate
+  replicas: 2
   template:
     metadata:
       labels:
@@ -39,6 +38,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: SELECTOR_SERVICE
+          value: "selector"
         - name: COORDINATOR_ADDRESS
           value: "coordinator:50050"
         - name: FL_ROOT_PATH

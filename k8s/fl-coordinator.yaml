@@ -33,11 +33,9 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name: CHECKIN_LIMIT
-          value: "2"
+          value: "1"
         - name: FL_ROOT_PATH
           value: "/mnt"
-        - name: SELECTOR_ADDRESS
-          value: "selector:50051"
         - name: PROBLEM_ID
           value: "DEFAULT"
         ports:
