@@ -40,18 +40,19 @@ def create_service_deployment(id, service_name, deployment_config_file):
                 except ApiException as e:
                     print(e.body)
 
-            elif yaml_object['kind'] == 'Deployment':
+            elif yaml_object['kind'] == 'Pod':
                 try:
-                    for env in yaml_object['spec']['template']['spec']['containers'][0]['env']:
-                        if env['name']=='PROBLEM_ID':
-                            env['value'] = str(id)
-                except KeyError as e:
-                    print(e)
-
-                try:
-                    resp = apps_v1.create_namespaced_deployment(
+                    resp = core_v1.create_namespaced_pod(
                         namespace=id, body=yaml_object)
-                    print(("FL {} deployment created. Status={}").format(service_name, resp.metadata.name))
+                    print(("FL {} pod created. Status={}").format(service_name, resp.metadata.name))
+                except ApiException as e:
+                    print(e.body)
+
+            elif yaml_object['kind'] == 'StatefulSet':
+                try:
+                    resp = apps_v1.create_namespaced_stateful_set(
+                        namespace=id, body=yaml_object)
+                    print(("FL {} stateful set created. Status={}").format(service_name, resp.metadata.name))
                 except ApiException as e:
                     print(e.body)
 

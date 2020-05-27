@@ -1,4 +1,4 @@
-# Persistent volumen claim
+# Persistent volume claim
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

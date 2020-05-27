@@ -12,38 +12,32 @@ spec:
     app: fl
   type: ClusterIP
 ---
-apiVersion: apps/v1
-kind: Deployment
+kind: Pod
+apiVersion: v1
 metadata:
-  name: coordinator
+  name: coordinator-0
   labels:
     app: fl
 spec:
-  selector:
-    matchLabels:
-      app: fl
-  template:
-    metadata:
-      labels:
-        app: fl
-    spec:
-      containers:
-      - image: fedota/fl-coordinator
-        name: fl-coordinator
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: CHECKIN_LIMIT
-          value: "1"
-        - name: FL_ROOT_PATH
-          value: "/mnt"
-        - name: PROBLEM_ID
-          value: "DEFAULT"
-        ports:
-        - containerPort: 50050
-        volumeMounts:
-        - name: fl-pvc
-          mountPath: "/mnt"
-      volumes:
-      - name: fl-pvc
-        persistentVolumeClaim:
-          claimName: fl-pvc
+  containers:
+  - image: fedota/fl-coordinator
+    name: fl-coordinator
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: CHECKIN_LIMIT
+      value: "1"
+    - name: FL_ROOT_PATH
+      value: "/mnt"
+    - name: PROBLEM_ID
+      valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+    ports:
+    - containerPort: 50050
+    volumeMounts:
+    - name: fl-pvc
+      mountPath: "/mnt"
+  volumes:
+  - name: fl-pvc
+    persistentVolumeClaim:
+      claimName: fl-pvc
