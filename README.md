@@ -14,13 +14,14 @@ Webserver has the following responsibilities:
 - Data organization wishing to contribute in the training of the model with their local data use the instructions provided to run the client docker image with required arguments and makes a connection request to the respective selector. Data organizations should coordinate among themselves on when to run clients to ensure goal count is reached.
 - Coordinator for a FL problem sends updates about the round to the Webserver which notes the changes.
 
-
 ### Setup
 - Install dependencies: `pip install -r requirements.txt`
 - Fedota migrations: `python manage.py makemigrations fedota`
 - Migrate: `python manage.py migrate`
 - Start webserver: `python manage.py runserver`
 - Superuser : `python manage.py createsuperuser`
+
+When running locally the selector and coordinator can share the /data directory for the model and checkpoint files as shown in the last section of [fedota-infra](https://github.com/fedota/fedota-infra) repo. Otherwise deploy the nfs-service and change the mount for the k8s/fl-pv.yaml as shown in the NFS section of fedota-infra repo.
 
 ### Themes
 Default themes can be added using:
@@ -32,3 +33,6 @@ Default themes can be added using:
 ### Contribute
 Fix code style issues before pushing:
 `pre-commit run --all-files`
+
+### TODO
+- Add code to create the client docker image passing the selector address as a argument for the data holders to download
